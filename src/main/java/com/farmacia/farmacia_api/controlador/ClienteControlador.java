@@ -34,4 +34,18 @@ public class ClienteControlador {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(clienteServicio.guardar(cliente));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Cliente> actualizar(
+            @PathVariable Long id,
+            @RequestBody Cliente cliente
+    ) {
+        return ResponseEntity.ok(clienteServicio.actualizar(id, cliente));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        clienteServicio.eliminar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
