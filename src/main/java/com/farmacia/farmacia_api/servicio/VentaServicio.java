@@ -37,7 +37,15 @@ public class VentaServicio {
                 .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
     }
 
+    public List<Venta> listarPorMedicamento(Long medicamentoId) {
+        return ventaRepositorio.findByMedicamentoId(medicamentoId);
+    }
+
     public Venta guardar(Venta venta) {
+        if (venta.getCantidad() == null || venta.getCantidad() <= 0) {
+            throw new RuntimeException("La cantidad debe ser mayor a cero");
+        }
+
         Cliente cliente = clienteRepositorio.findById(venta.getCliente().getId())
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 
@@ -48,21 +56,16 @@ public class VentaServicio {
             throw new RuntimeException("Stock insuficiente");
         }
 
-        Double total = medicamento.getPrecio() * venta.getCantidad();
+        double total = medicamento.getPrecio() * venta.getCantidad();
 
         medicamento.setStock(medicamento.getStock() - venta.getCantidad());
         medicamentoRepositorio.save(medicamento);
 
-        venta.setCliente(cliente);
-        venta.setMedicamento(medicamento);
         venta.setFecha(LocalDate.now());
         venta.setTotal(total);
+        venta.setCliente(cliente);
+        venta.setMedicamento(medicamento);
 
         return ventaRepositorio.save(venta);
-    }
-
-    public void eliminar(Long id) {
-        Venta venta = buscarPorId(id);
-        ventaRepositorio.delete(venta);
     }
 }

@@ -2,6 +2,8 @@ package com.farmacia.farmacia_api.controlador;
 
 import com.farmacia.farmacia_api.entidad.Cliente;
 import com.farmacia.farmacia_api.servicio.ClienteServicio;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,27 +20,18 @@ public class ClienteControlador {
     }
 
     @GetMapping
-    public List<Cliente> listar() {
-        return clienteServicio.listar();
+    public ResponseEntity<List<Cliente>> listar() {
+        return ResponseEntity.ok(clienteServicio.listar());
     }
 
     @GetMapping("/{id}")
-    public Cliente buscarPorId(@PathVariable Long id) {
-        return clienteServicio.buscarPorId(id);
+    public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(clienteServicio.buscarPorId(id));
     }
 
     @PostMapping
-    public Cliente guardar(@RequestBody Cliente cliente) {
-        return clienteServicio.guardar(cliente);
-    }
-
-    @PutMapping("/{id}")
-    public Cliente actualizar(@PathVariable Long id, @RequestBody Cliente cliente) {
-        return clienteServicio.actualizar(id, cliente);
-    }
-
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        clienteServicio.eliminar(id);
+    public ResponseEntity<Cliente> guardar(@RequestBody Cliente cliente) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(clienteServicio.guardar(cliente));
     }
 }

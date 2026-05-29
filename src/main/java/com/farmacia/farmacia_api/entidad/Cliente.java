@@ -15,10 +15,7 @@ public class Cliente {
     private Long id;
 
     private String nombre;
-
     private String cedula;
-
     private String telefono;
-
     private String correo;
 }

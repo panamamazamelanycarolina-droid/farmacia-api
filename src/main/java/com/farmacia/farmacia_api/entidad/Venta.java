@@ -2,6 +2,7 @@ package com.farmacia.farmacia_api.entidad;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -16,9 +17,7 @@ public class Venta {
     private Long id;
 
     private LocalDate fecha;
-
     private Integer cantidad;
-
     private Double total;
 
     @ManyToOne

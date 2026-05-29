@@ -25,22 +25,14 @@ public class ClienteServicio {
     }
 
     public Cliente guardar(Cliente cliente) {
+        if (cliente.getNombre() == null || cliente.getNombre().isBlank()) {
+            throw new RuntimeException("El nombre del cliente es obligatorio");
+        }
+
+        if (cliente.getCedula() == null || cliente.getCedula().isBlank()) {
+            throw new RuntimeException("La cédula es obligatoria");
+        }
+
         return clienteRepositorio.save(cliente);
-    }
-
-    public Cliente actualizar(Long id, Cliente cliente) {
-        Cliente clienteExistente = buscarPorId(id);
-
-        clienteExistente.setNombre(cliente.getNombre());
-        clienteExistente.setCedula(cliente.getCedula());
-        clienteExistente.setTelefono(cliente.getTelefono());
-        clienteExistente.setCorreo(cliente.getCorreo());
-
-        return clienteRepositorio.save(clienteExistente);
-    }
-
-    public void eliminar(Long id) {
-        Cliente cliente = buscarPorId(id);
-        clienteRepositorio.delete(cliente);
     }
 }
